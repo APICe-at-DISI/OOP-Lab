@@ -92,8 +92,7 @@ deploy:
       - "$TRAVIS_BUILD_DIR/slides/13 - report-template/13-template.pdf"
       - "$TRAVIS_BUILD_DIR/workspace/*.zip"
     on:
-      all_branches: true
-      condition: $TRAVIS_PULL_REQUEST = false
+      condition: "$TRAVIS_BRANCH" = "master" || "$TRAVIS_TAG" != ""
 
 notifications:
   email:
