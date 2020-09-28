@@ -45,7 +45,7 @@ install:
   - sudo initexmf --admin --set-config-value [MPM]AutoInstall=1
   - sudo mpm --admin --package-level=basic --find-upgrades --upgrade
 
-after_install:
+before_script:
   # Debug prints
   - pygmentize -V # debug
   - inkscape --version # debug
