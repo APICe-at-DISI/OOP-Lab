@@ -111,6 +111,7 @@ deploy:
       - "$TRAVIS_BUILD_DIR/slides/08 - code-quality-multiplatform-profiling/08-code-analysis.pdf"
       - "$TRAVIS_BUILD_DIR/slides/09 - dvcs-workflow/09-DVCS-Workflow.pdf"
       - "$TRAVIS_BUILD_DIR/slides/10 - javafx/10-JavaFX.pdf"
+      - "$TRAVIS_BUILD_DIR/slider/lab-csharp/oop1617_csharptutorial.pptx"
       - "$TRAVIS_BUILD_DIR/slides/13 - report-template/13-template.pdf"
       - "$TRAVIS_BUILD_DIR/workspace/*.zip"
 
