@@ -4,6 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.junit.Test;
 
 /**
@@ -19,8 +21,8 @@ public class TestWithExceptions {
     @Test
     public void testExceptionNotExpected() {
         try {
-            Class.forName("java.util.ArrayList").newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            Class.forName("java.util.ArrayList").getDeclaredConstructor().newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             /*
              * Same behavior for any exception: use multi-catch.
              * 
@@ -39,12 +41,12 @@ public class TestWithExceptions {
     @Test
     public void testExceptionExpected() {
         try {
-            Class.forName("java.util.List").newInstance();
+            Class.forName("java.util.List").getDeclaredConstructor().newInstance();
             /*
              * If we get to the next line, then we have not generated any exception. The test must fail().
              */
             fail();
-        } catch (InstantiationException e) {
+        } catch (NoSuchMethodException e) {
             /*
              * We expect this exception, and none other (List must exist in the
              * classpath, but it can't be instanced being an interface.
@@ -60,7 +62,7 @@ public class TestWithExceptions {
              */
             assertNotNull(e.getMessage());
             assertFalse(e.getMessage().isEmpty());
-        } catch (ClassNotFoundException | IllegalAccessException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException | SecurityException e) {
             /*
              * These are theorethically possible, but not expected exceptions.
              * To deal with them, we use a second catch block, and we raise an
