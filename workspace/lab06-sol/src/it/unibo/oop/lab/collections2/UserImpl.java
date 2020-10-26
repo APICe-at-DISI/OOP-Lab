@@ -10,7 +10,7 @@ public class UserImpl implements User {
 
     private final String firstName;
     private final String lastName;
-    private final Integer age;
+    private final int age;
     private final String username;
     /*
      * to be "lazily" initialized.
