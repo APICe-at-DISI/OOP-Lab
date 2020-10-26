@@ -84,7 +84,7 @@ public class StrictBankAccount implements BankAccount {
      *            amount to be deposited via ATM
      * 
      * @throws WrongAccountHolderException
-     *             if an unauthorized user tries to withdraw
+     *             if an unauthorized user tries to deposit
      * @throws TransactionsOverQuotaException
      *             max no. of ATM transaction reached
      */
@@ -148,13 +148,24 @@ public class StrictBankAccount implements BankAccount {
      * 
      * @param usrID
      *            id of the user related to these fees
+     * @throws WrongAccountHolderException
+     *            if an unauthorized user tries to compute fees
+     * @throws NotEnoughFoundsException
+     *            if the balance is less than the fee amount
      */
     public void computeManagementFees(final int usrID) {
         final double feeAmount = MANAGEMENT_FEE + (nTransactions * StrictBankAccount.TRANSACTION_FEE);
-        if (checkUser(usrID) && isWithdrawAllowed(feeAmount)) {
-            balance -= MANAGEMENT_FEE + nTransactions * StrictBankAccount.TRANSACTION_FEE;
-            nTransactions = 0;
-            nAtmTransactions = 0;
+        if (checkUser(usrID)) {
+            if (isWithdrawAllowed(feeAmount)) {
+	            balance -= MANAGEMENT_FEE + nTransactions * StrictBankAccount.TRANSACTION_FEE;
+	            nTransactions = 0;
+	            nAtmTransactions = 0;
+	        } else {
+                throw new NotEnoughFoundsException();
+            }
+
+        } else {
+            throw new WrongAccountHolderException();
         }
     }
 
