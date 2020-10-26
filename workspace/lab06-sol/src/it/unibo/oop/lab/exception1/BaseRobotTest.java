@@ -4,9 +4,9 @@ import static it.unibo.oop.lab.exception1.RobotEnvironment.WORLD_X_UPPER_LIMIT;
 import static it.unibo.oop.lab.exception1.RobotEnvironment.WORLD_Y_UPPER_LIMIT;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 /**
@@ -49,7 +49,7 @@ public final class BaseRobotTest {
              */
             fail("I should not get such far!");
         } catch (PositionOutOfBoundException e) {
-            assertThat(e.getMessage(), containsString("pos(" + (WORLD_X_UPPER_LIMIT + 1) + ", 0)"));
+        	MatcherAssert.assertThat(e.getMessage(), containsString("pos(" + (WORLD_X_UPPER_LIMIT + 1) + ", 0)"));
         } catch (NotEnoughBatteryException e) {
             fail("No battery problems expected here!");
         }
@@ -63,7 +63,7 @@ public final class BaseRobotTest {
             }
             r1.moveUp();
         } catch (PositionOutOfBoundException e) {
-            assertThat(e.getMessage(), containsString("pos(" + WORLD_X_UPPER_LIMIT + ", " + (WORLD_Y_UPPER_LIMIT + 1) + ")"));
+        	MatcherAssert.assertThat(e.getMessage(), containsString("pos(" + WORLD_X_UPPER_LIMIT + ", " + (WORLD_Y_UPPER_LIMIT + 1) + ")"));
         } catch (NotEnoughBatteryException e) {
             fail("Battery should not be the issue here!");
         }
@@ -91,7 +91,7 @@ public final class BaseRobotTest {
         } catch (PositionOutOfBoundException e) {
             fail("I expected battery to fail!");
         } catch (NotEnoughBatteryException e) {
-            assertThat(e.getMessage(), containsString(" Battery level is " + r2.getBatteryLevel()));
+        	MatcherAssert.assertThat(e.getMessage(), containsString(" Battery level is " + r2.getBatteryLevel()));
         }
     }
 }
