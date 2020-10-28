@@ -10,4 +10,4 @@ Modify `StrictBankAccountImpl` in such a way that:
 * A `NotEnoughFoundsException` is thrown if there is not enough money for a draw operation to complete
 * A `TransactionsOverQuotaException` is thrown if the count of ATM transactions gets over the maximum allowed
 
-Complete the class `TestStrictBankAccount` using JUnit
+Execute the class `TestStrictBankAccount` to verify that the exceptions are correctly implemented and thrown.
