@@ -50,8 +50,12 @@ public final class BaseRobotTest {
             fail("I should not get such far!");
         } catch (PositionOutOfBoundException e) {
         	MatcherAssert.assertThat(e.getMessage(), containsString("pos(" + (WORLD_X_UPPER_LIMIT + 1) + ", 0)"));
-        } catch (NotEnoughBatteryException e) {
-            fail("No battery problems expected here!");
+        } catch (RuntimeException e) { 
+            /*
+             * use a generic exception in a catch clause is always bad idea and you have NEVER to do that.
+             * Here we do that only to be sure that you throw the right exception.
+             */
+        	fail("A wrong exception was raised!");
         }
         /*
          * 2) Move to the top until it reaches the upper right conrner of the world
@@ -64,8 +68,12 @@ public final class BaseRobotTest {
             r1.moveUp();
         } catch (PositionOutOfBoundException e) {
         	MatcherAssert.assertThat(e.getMessage(), containsString("pos(" + WORLD_X_UPPER_LIMIT + ", " + (WORLD_Y_UPPER_LIMIT + 1) + ")"));
-        } catch (NotEnoughBatteryException e) {
-            fail("Battery should not be the issue here!");
+        } catch (RuntimeException e) { 
+            /*
+             * use a generic exception in a catch clause is always bad idea and you have NEVER to do that.
+             * Here we do that only to be sure that you throw the right exception.
+             */
+        	fail("A wrong exception was raised!");
         }
 
     }
@@ -90,8 +98,16 @@ public final class BaseRobotTest {
             fail("You're not supposed to get that far with no battery!");
         } catch (PositionOutOfBoundException e) {
             fail("I expected battery to fail!");
-        } catch (NotEnoughBatteryException e) {
-        	MatcherAssert.assertThat(e.getMessage(), containsString(" Battery level is " + r2.getBatteryLevel()));
+        } catch (RuntimeException e) { 
+            /*
+             * use a generic exception in a catch clause is always bad idea and you have NEVER to do that.
+             * Here we do that only to be sure that you throw the right exception.
+             * The method getSimpleName is an advanced aspect of java that you'll see later.
+             * It return the runtime class name of the object 
+             */
+        	if (!e.getClass().getSimpleName().equals("NotEnoughBatteryException")) {
+        		fail("A wrong exception was raised!");
+        	}
         }
     }
 }

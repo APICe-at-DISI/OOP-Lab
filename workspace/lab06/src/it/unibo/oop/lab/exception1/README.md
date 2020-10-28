@@ -44,4 +44,3 @@ Design and realize `NotEnoughBatteryException`, to be thrown when the robot is a
 * Change the behavior of `moveToPosition` (it must return `void`)
 * Throw an exception if there is not enough battery)
 * Refactor `moveUp` and `moveDown`
-* Toggle the three comments in `BaseRobotTest` (where it is required with a `TODO`) to verify that the exception is correctly implemented and thrown
