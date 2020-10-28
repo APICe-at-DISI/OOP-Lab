@@ -11,6 +11,7 @@ import org.junit.Test;
  */
 public class TestStrictBankAccount {
 
+	private static final int MAX_ATM_TRANSACTIONS = 10;
     private static final int INITIAL_AMOUNT = 10_000;
     private static final int TOO_MUCH = 50_000;
 
@@ -26,8 +27,8 @@ public class TestStrictBankAccount {
          */
 //        final AccountHolder usr1 = new AccountHolder("Mario", "Rossi", 1);
 //        final AccountHolder usr2 = new AccountHolder("Luigi", "Bianchi", 2);
-//        final StrictBankAccount account1 = new StrictBankAccount(usr1.getUserID(), INITIAL_AMOUNT, 10);
-//        final StrictBankAccount account2 = new StrictBankAccount(usr2.getUserID(), INITIAL_AMOUNT, 10);
+//        final StrictBankAccount account1 = new StrictBankAccount(usr1.getUserID(), INITIAL_AMOUNT, MAX_ATM_TRANSACTIONS);
+//        final StrictBankAccount account2 = new StrictBankAccount(usr2.getUserID(), INITIAL_AMOUNT, MAX_ATM_TRANSACTIONS);
         /*
          * 2) Effetture un numero di operazioni a piacere per verificare che le
          * eccezioni create vengano lanciate soltanto quando opportuno, cioè in presenza
@@ -40,7 +41,7 @@ public class TestStrictBankAccount {
 //        } catch (WrongAccountHolderException e) {
 //            assertNotNull(e);
 //        }
-//        for (int i = 0; i < 10; i++) {
+//        for (int i = 0; i < MAX_ATM_TRANSACTIONS; i++) {
 //            try {
 //                account2.depositFromATM(usr2.getUserID(), 1);
 //            } catch (TransactionsOverQuotaException | WrongAccountHolderException e) {
