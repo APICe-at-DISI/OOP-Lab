@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "custom-theme.css",
-	"sourceRoot": "/home/runner/work/OOP-Lab/OOP-Lab/slides-markdown",
+	"sourceRoot": "/home/runner/work/oop-lab/oop-lab/slides-markdown",
 	"sources": [
 		"assets/custom-theme.scss",
 		"themes/reveal-hugo/assets/reveal-js/dist/theme/template/mixins.scss",
