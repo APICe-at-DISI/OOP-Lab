@@ -1,0 +1,302 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+<title>Laboratorio di Programmazione ad Oggetti</title>
+<meta name="description" content="Laboratorio di Programmazione ad Oggetti, Ingegneria e Scienze Informatiche">
+<meta name="author" content="Danilo Pianini">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/oop-lab/reveal-js/dist/reset.css">
+<link rel="stylesheet" href="/oop-lab/reveal-js/dist/reveal.css">
+  <link rel="stylesheet" href="/oop-lab/css/custom-theme.min.3dfab9399e260dd52f6248ba26ef5759be37b6dd2d0fcb7433d5c6e43528980f.css" id="theme"><link rel="stylesheet" href="/oop-lab/highlight-js/default.min.css">
+    
+<link rel="stylesheet" href="https://gitcdn.link/repo/DanySK/css-blur-animation/master/blur.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+  </head>
+  <body>
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <section><h1 id="documentazione-del-codice-e-costruzione-degli-artefatti">Documentazione del codice e costruzione degli artefatti</h1>
+<h4 id="programmazione-ad-oggetti">Programmazione ad Oggetti</h4>
+<h4 id="cdl-ingegneria-e-scienze-informatiche">C.D.L. Ingegneria e Scienze Informatiche</h4>
+<h3 id="danilo-pianini-----danilopianiniuniboitmailtodanilopianiniuniboit"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini — <code>danilo.pianini@unibo.it</code></a></h3>
+<h3 id="roberto-casadei-----robycasadeiuniboitmailtorobycasadeiuniboit"><a href="mailto:roby.casadei@unibo.it">Roberto Casadei — <code>roby.casadei@unibo.it</code></a></h3>
+<p><a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a>
+</p></section><section>
+<h2 id="deployment-di-applicazioni-java">Deployment di applicazioni Java</h2>
+<ul>
+<li>
+<p>Finora, abbiamo visto che un’applicazione Java è composta di un
+insieme di classi: noi vorremmo distribuirla come singolo file!</p>
+</li>
+<li>
+<p>Normalmente, le applicazioni Java vengono confezionate in file JAR
+(Java ARchive)</p>
+</li>
+</ul>
+<h3 id="file-jar">File JAR</h3>
+<ul>
+<li>
+<p>Un JAR è un archivio ZIP che contiene le classi, le risorse (e.g. icone)
+e un file descrittivo detto <em>Manifest</em>.</p>
+</li>
+<li>
+<p>Il Manifest viene creato sempre in <code>META-INF/MANIFEST.MF</code>, e
+contiene informazioni sull’applicazione, ad esempio su quale classe
+contenga il main del programma.</p>
+</li>
+<li>
+<p>È possibile associare (a livello di sistema operativo) l’esecuzione del
+JAR file al comando Java, in modo che l’applicazione si avvii
+automaticamente “col doppio click” (avviando automaticamente la
+classe scritta nel Manifest)</p>
+</li>
+<li>
+<p>È possibile utilizzare i file JAR come componenti di altre applicazioni (librerie)</p>
+</li>
+</ul>
+</section><section>
+<h2 id="il-comando-jar">Il comando <code>jar</code></h2>
+<p>Per creare un file JAR, si può utilizzare direttamente il comando <code>jar</code></p>
+<ul>
+<li>Normalmente, tuttavia, ci si avvale del supporto di strumenti di build automation (Gradle, Maven…)</li>
+</ul>
+<h3 id="opzioni-importanti-del-comando-jar">Opzioni importanti del comando jar</h3>
+<ul>
+<li><code>c</code> — Specifica l’intenzione di creare un JAR file</li>
+<li><code>f</code> — Specifica un file di output (se non presente, l’output è rediretto su
+standard output)</li>
+<li><code>m</code> — Specifica l’intenzione di allegare un manifest file personalizzato (se non
+presente, ne viene creato uno di default, che non specifica alcuna classe da
+eseguire)</li>
+</ul>
+<h3 id="esempi">Esempi</h3>
+<ul>
+<li><code>jar cf jar-file.jar file1 file2 directory1</code>
+<ul>
+<li>Crea un nuovo JAR file di nome <code>jar-file.jar</code> contenente <code>file1</code>,
+<code>file2</code>, e <code>directory1</code>. Include un Manifest di default.</li>
+</ul>
+</li>
+<li><code>jar cf jar-file.jar *</code>
+<ul>
+<li>Crea un nuovo JAR file di nome <code>jar-file.jar</code> contenente tutti i file
+e le directory nel path corrente. Include un Manifest di default.</li>
+</ul>
+</li>
+<li><code>jar cfm jar-file.jar MYMANIFEST it/unibo/*</code>
+<ul>
+<li>Crea un nuovo JAR file, di nome <code>jar-file.jar</code>, contenente tutti i
+file e le directory nel path <code>it/unibo</code>, con manifest dato dal file
+<code>MYMANIFEST</code> nella cartella corrente.</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="esecuzione-di-jar-file-tramite-command-line">Esecuzione di JAR file tramite command line</h2>
+<p><code>java</code> ha un’opzione che consente l’esecuzione di file jar: <code>-jar</code></p>
+<p>Quando si lancia <code>java -jar nomefile.jar</code>,
+la Java Virtual Machine automaticamente legge il file <em>Manifest</em>,
+cerca una descrizione della <em>Main Class</em> da eseguire e <em>tenta di eseguirla</em>.</p>
+</section><section>
+<h2 id="costruzione-di-file-jar-in-gradle">Costruzione di file Jar in Gradle</h2>
+<p>Il plugin <code>java</code> include un task chiamato <code>jar</code> che si occupa di creare un jar dell’applicazione corrente</p>
+<ul>
+<li><strong>Non è eseguibile!</strong></li>
+<li>Il task è pensato per chi costruisce <em>librerie</em>
+<ul>
+<li>Include tutti i compilati (<code>*.class</code>) e le risorse del source set <code>main</code>
+<ul>
+<li>Ossia, il risultato della costruzione di tutto quello che si trova in <code>src/main</code></li>
+<li>Non include i test! (giustamente…)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Genera un jar che <strong>non</strong> include le <em>dipendenze</em>
+<ul>
+<li>Ossia le librerie che il nostro software usa</li>
+</ul>
+</li>
+<li>Non specifica alcuna <em>main class</em> nel <em>Manifest</em>!</li>
+</ul>
+</section><section>
+<h2 id="fatubershadow-jars">(fat/uber/shadow)-jars</h2>
+<p>Perché un Jar sia eseguibile, deve includere:</p>
+<ol>
+<li>Una main class nel Manifest</li>
+<li>Tutti i compilati e le risorse dell’applicazione
+<ul>
+<li>Tutto quello che deriva da <code>src/main</code></li>
+</ul>
+</li>
+<li>Tutte le <strong>librerie</strong> che servono al software
+<ul>
+<li>Altrimenti, avremo dei <code>NoClassDefFoundError</code> o delle <code>ClassNotFoundException</code> (in reflection)</li>
+</ul>
+</li>
+</ol>
+<p>Un Jar file con queste caratteristiche viene definito anche fat-jar (o uber-jar, o shadow-jar)</p>
+</section><section>
+<h2 id="fat-jar-in-gradle">Fat-jar in Gradle</h2>
+<p>Il plugin <code>java</code> non ha dei task preconfigurati per generare dei fat-jar.
+Possiamo però sfruttare una coppia di altri plugin:</p>
+<ul>
+<li><code>application</code>: un plugin incluso in Gradle che configura una classe come “main class” per il software
+<ul>
+<li>Aggiunge il task <code>run</code> che compila il progetto e la esegue</li>
+</ul>
+</li>
+<li><code>com.github.johnrengelman.shadow</code>: un plugin <em>di terze parti</em>
+(ossia, costruito da una persona che non fa parte del team di Gradle)
+<ul>
+<li>Aggiunge il task <code>shadowJar</code>, che costruisce un <code>jar</code> con tutte le dipendenze specificate in Gradle</li>
+<li>Se presente <code>application</code>, cattura anche la <em>main class</em> e scrive il relativo file</li>
+</ul>
+</li>
+</ul>
+<p>Nota: è sempre possibile costruire i propri task personalizzati, ma non è argomento di questo corso</p>
+</section><section>
+<h2 id="utilizzo-di-application-e-comgithubjohnrengelmanshadow">Utilizzo di <code>application</code> e <code>com.github.johnrengelman.shadow</code></h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">plugins</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#000">java</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#177500">// Apply the application plugin to add support for building a CLI application
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"></span>    <span style="color:#177500">// You can run your app via task "run": ./gradlew run
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"></span>    <span style="color:#000">application</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#177500">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * Adds tasks to export a runnable jar.
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * Always pick the latest version!
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * In order to create it, launch the "shadowJar" task.
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * The runnable jar will be found in build/libs/projectname-all.jar
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">id</span>(<span style="color:#c41a16">"com.github.johnrengelman.shadow"</span>) <span style="color:#000">version</span> <span style="color:#c41a16">"7.0.0"</span> <span style="color:#177500">// Update the version!
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000">application</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#177500">// Define the main class for the application
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"></span>    <span style="color:#000">mainClass</span>.<span style="color:#a90d91">set</span>(<span style="color:#c41a16">"your.mainclass.qualified.Name"</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><code>./gradlew run</code> lancia <code>your.mainclass.qualified.Name</code></li>
+<li><code>./gradlew shadowJar</code> crea un fat-jar il cui nome termina in <code>-all.jar</code> dentro <code>build/libs</code></li>
+</ul>
+</section>
+
+  
+
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src="/oop-lab/reveal-hugo/object-assign.js"></script>
+
+<a href="/oop-lab/reveal-js/dist/print/" id="print-location" style="display: none;"></a>
+
+<script type="application/json" id="reveal-hugo-site-params">{"custom_theme":"custom-theme.scss","custom_theme_compile":true,"custom_theme_options":{"enablesourcemap":true,"targetpath":"css/custom-theme.css"},"height":"900","highlight_theme":"default","history":true,"mermaid":[{"startOnLoad":false}],"slide_number":true,"theme":"white","transition":"slide","transition_speed":"fast","width":"1440"}</script>
+<script type="application/json" id="reveal-hugo-page-params">null</script>
+
+<script src="/oop-lab/reveal-js/dist/reveal.js"></script>
+
+
+  
+  
+  <script type="text/javascript" src="/oop-lab/reveal-js/plugin/markdown/markdown.js"></script>
+  
+  <script type="text/javascript" src="/oop-lab/reveal-js/plugin/highlight/highlight.js"></script>
+  
+  <script type="text/javascript" src="/oop-lab/reveal-js/plugin/zoom/zoom.js"></script>
+  
+  <script type="text/javascript" src="/oop-lab/reveal-js/plugin/notes/notes.js"></script>
+  
+  
+  <script type="text/javascript" src="/oop-lab/reveal-js/plugin/notes/notes.js"></script>
+
+
+
+
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+  
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+
+  var revealHugoPlugins = { 
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom ]
+   };
+  var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
+  var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams),
+    camelize(revealHugoPlugins));
+  Reveal.initialize(options);
+</script>
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({"startOnLoad":false});
+
+    let render = (event) => {
+      let mermaidElems = event.currentSlide.querySelectorAll('.mermaid');
+      if (!mermaidElems.length){
+          return
+      }
+      mermaidElems.forEach(mermaidElem => {
+          let processed = mermaidElem.getAttribute('data-processed');
+          if (!processed){
+              
+              mermaid.init(undefined, mermaidElem);
+          }
+      });
+    };
+    Reveal.addEventListener('slidechanged', render);
+    Reveal.addEventListener('ready', render);
+  </script>
+
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+
+<script type="text/javascript" id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+
+    
+  
+
+</body></html>
