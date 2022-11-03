@@ -30,7 +30,9 @@
 <h3 id="roberto-casadei-----robycasadeiuniboitmailtorobycasadeiuniboit"><a href="mailto:roby.casadei@unibo.it">Roberto Casadei — <code>roby.casadei@unibo.it</code></a></h3>
 <p><a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a>
 </p></section><section>
-<h2 id="deployment-di-applicazioni-java">Deployment di applicazioni Java</h2>
+<h1 id="assemblamento-di-applicazioni-java">Assemblamento di applicazioni Java</h1>
+</section><section>
+<h2 id="packaging-di-applicazioni-java">Packaging di applicazioni Java</h2>
 <ul>
 <li>
 <p>Finora, abbiamo visto che un’applicazione Java è composta di un
@@ -187,6 +189,186 @@ Possiamo però sfruttare una coppia di altri plugin:</p>
 <li><code>./gradlew run</code> lancia <code>your.mainclass.qualified.Name</code></li>
 <li><code>./gradlew shadowJar</code> crea un fat-jar il cui nome termina in <code>-all.jar</code> dentro <code>build/libs</code></li>
 </ul>
+</section><section>
+<h1 id="documentazione-semi-automatica">Documentazione (semi-)automatica</h1>
+</section><section>
+<h2 id="documentare-il-codice-sorgente">Documentare il codice sorgente</h2>
+<p>La documentazione di un progetto software è un aspetto <em>fondamentale</em>
+Al fine di garantirne la <em>manutenibilità</em></p>
+<ul>
+<li>Siamo cosı̀ sicuri di ricordarci, a distanza di settimane, del perché
+abbiamo adottato una certa architettura, scritto una certa classe, una
+data estensione di una classe, un certo metodo?</li>
+<li>Arriva in azienda un nuovo sviluppatore: come fa a costruirsi il
+background necessario per lavorare su un progetto software esistente?
+Al fine di aumentare la comprensione del codice
+<ul>
+<li>Cosa farà mai il metodo <code>doStuff()</code> sviluppato dal collega?</li>
+<li>Ci sono dei metodi che sono disponibili solo per ragioni di compatibilità e che non dovrei più utilizzare?</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="javadoc"><code>javadoc</code></h2>
+<p>Strumento di supporto per la generazione automatica di documentazione HTML di software Java
+tramite utilizzo di una specifica sintassi nei commenti</p>
+<h3 id="funzionamento">Funzionamento</h3>
+<ul>
+<li>Il tool processa tutti commenti del tipo <code>/** ... */</code></li>
+<li>I commenti devono trovarsi in posizioni specifiche: <em>in testa</em> a dichiarazione di interfacce/classi o dei loro membri</li>
+<li>Esiste una sintassi specifica per esprimere informazioni specifiche
+<ul>
+<li>significato dei parametri di un metodo</li>
+<li>significato dei type-parameters di una classe generica</li>
+<li>valore di ritorno di un metodo</li>
+<li>eventuali eccezioni e condizioni che le scatenano</li>
+<li>informazioni circa la <em>deprecazione</em>, ad esempio metodi da preferire a quello corrente</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h3 id="esempio">Esempio</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">java.util.List</span><span style="color:#000">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#177500">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"> * This is an exemplary documentation of a class named {@code Something}.
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"> * It is possible to use &lt;i&gt;HTML tags&lt;/i&gt; in this text, and special characters such as &amp;amp; must be
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"> * escaped as uyou would escape them in HTML.
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"> * Code can be written in {@code code tags}. Other entities can be linked via {@code @link}, e.g.,
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"> * the {@link List} interface, or the {@link List#of(Object...)} method.
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"> * @param &lt;T&gt; This is the documentation specific for the class parameter {@code T}
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"> * @see List#size()
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"> * @deprecated This contains information on the reason why this class should not be used in new code,
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"> * when (if) will eventually be removed, and what to use as a replacement.
+</span></span></span><span style="display:flex;"><span><span style="color:#177500"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">@Deprecated</span>
+</span></span><span style="display:flex;"><span><span style="color:#a90d91">interface</span> <span style="color:#3f6e75">Something</span><span style="color:#000">&lt;</span><span style="color:#000">T</span><span style="color:#000">&gt;</span> <span style="color:#000">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#177500">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * This is the documentation of a method. The text is still HTML.
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * 
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * @param subject Documents the parameter @{code subject}
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * @param count Documents the parameter @{code count} (one entry per parameter)
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * @return Provides information on the returned information
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * @throws IOException Provides detail on the causes that may trigger an @{code IOException}
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * @throws IllegalArgumentException If more exceptions are thrown, each should get documented
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     * 
+</span></span></span><span style="display:flex;"><span><span style="color:#177500">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">@Deprecated</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">int</span> <span style="color:#000">doIt</span><span style="color:#000">(</span><span style="color:#000">List</span><span style="color:#000">&lt;</span><span style="color:#000">T</span><span style="color:#000">&gt;</span> <span style="color:#000">subject</span><span style="color:#000">,</span> <span style="color:#a90d91">int</span> <span style="color:#000">count</span><span style="color:#000">)</span> <span style="color:#a90d91">throws</span> <span style="color:#000">IOException</span> <span style="color:#000">{</span> <span style="color:#000">...</span> <span style="color:#000">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">}</span>
+</span></span></code></pre></div></section><section>
+<h2 id="tag-informativi">Tag informativi</h2>
+<p><code>@param</code></p>
+<ul>
+<li>Utilizzabile nei commenti relativi a costruttori/metodi o in classi parametriche</li>
+<li>Descrive parametro di input oppure type-parameters per classi/metodi generici</li>
+<li>Una entry per parametro</li>
+</ul>
+<p><code>@return</code></p>
+<ul>
+<li>Utilizzabile nei commenti relativi ai metodi</li>
+<li>Descrive il valore di ritorno</li>
+<li>Solo uno per metodo</li>
+</ul>
+<p><code>@throws</code></p>
+<ul>
+<li>Utilizzabile nei commenti relativi a costruttori/metodi che possono lanciare eccezione</li>
+<li>Descrive l’eccezione e il motivo per cui viene lanciata</li>
+</ul>
+<p><code>@see</code></p>
+<ul>
+<li>Indica eventuali altre entità la cui documentazione potrebbe essere di interesse per chi legge</li>
+<li>Ad esempio, una funzionalità su generiche collezioni potrebbe linkare <code>List</code> e <code>Set</code></li>
+</ul>
+</section><section>
+<h2 id="informazioni-di-deprecazione">Informazioni di deprecazione</h2>
+<h3 id="deprecazione">Deprecazione</h3>
+<p>La deprecazione è il processo di <em>demarcazione di codice esistente</em> come <em>non più utile</em> nella codebase,
+tipicamente perché rimpiazzato da <em>nuovi componenti</em> con un design rivisto e migliorato.</p>
+<p>Questo codice viene solo marchiato come deprecato e non rimosso immediatamente per evitare problemi di retrocompatibilità.</p>
+<p>Ciononostante, il suo utilizzo in nuovo codice è <em>fortemente scoraggiato</em>,
+mentre il passaggio al codice sostitutivo è <em>fortemente raccomandato</em>.</p>
+<h3 id="deprecazione-in-java">Deprecazione in Java</h3>
+<p>In Java, le entità deprecate vanno annotate con <code>@Deprecated</code>,
+e opportunamente documentate col tag <code>@deprecated</code></p>
+<ul>
+<li>Utilizzabile nei commenti relativi a entità annotate con <code>@Deprecated</code></li>
+<li>Indica che quella particolare entità è stata <em>deprecata</em>:
+è ancora disponibile per ragioni di retrocompatibilità,
+ma è opportuno non utilizzarlo nello sviluppo di nuovo codice</li>
+<li>Si dovrebbe indicare cosa andrebbe usato in sostituzione
+(per facilitare l’adozione delle nuove API)</li>
+</ul>
+</section><section>
+<h2 id="tag-descrittivi">Tag descrittivi</h2>
+<p>Questi tag servono a migliorare la formattazione del testo, senza dover passare per tag HTML.
+Tipicamente appaiono nel testo principale.</p>
+<p><code>{@link target}</code></p>
+<ul>
+<li>Consente di fare collegamenti ipertestuali a entità della stessa classe o esterne</li>
+<li>Esempi di utilizzo:
+<ul>
+<li><code>{@link qualified.name.of.OtherClass#someMethod}</code></li>
+<li><code>{@link #someMethodOfSameClass}</code></li>
+<li><code>{@link #someFieldOfSameClass}</code></li>
+</ul>
+</li>
+</ul>
+<p><code>{@code testo}</code></p>
+<ul>
+<li>Formatta il <code>testo</code> con un font monospaziato</li>
+</ul>
+<p><code>{@inheritDoc}</code></p>
+<ul>
+<li>Utilizzabile in metodi che fanno override (preferibilmente, annotati con <code>@Override</code>)</li>
+<li>“Copia” la Javadoc della superclasse in quella corrente</li>
+<li>Da utilizzare per evitare ripetizioni,
+se viene implementato un metodo e l’uso esterno non è diverso da quello previsto dall’interfaccia/superclasse.</li>
+</ul>
+</section><section>
+<h2 id="altri-tag">Altri tag</h2>
+<p>Esistono alcuni tag aggiuntivi il cui utilizzo è <em>scoraggiato</em>
+(almeno in questo corso).
+Questo, tipicamente, perché indicano informazioni che sono reperibili a partire dal sistema di controllo versione,
+ma che, a differenza delle informazioni tracciate da quest’ultimo, sono manuali</p>
+<p><code>@since</code></p>
+<ul>
+<li>Indica la prima versione in cui una certa entità è apparsa</li>
+<li>Utile, per il JDK per sapere se una certa entità sarà disponibile in JVM più vecchie</li>
+<li>Può avere senso anche per progetti versionati</li>
+</ul>
+<p><code>@author</code></p>
+<ul>
+<li>Indica l’autore della classe/interfaccia (in caso di autori multipli, un tag per autore)</li>
+<li>La stessa informazione è deducibile dal controllo versione, si raccomanda di <strong>non usarlo</strong></li>
+</ul>
+<p><code>@version</code></p>
+<ul>
+<li>Indica la versione di una certa classe/interfaccia</li>
+<li>Va mantenuta manualmente,
+è meglio lasciare la gestione delle versioni al sistema di controllo versione,
+si raccomanda di <strong>non usarlo</strong></li>
+</ul>
+</section><section>
+<h2 id="cosa-commentare-linee-guida">Cosa commentare, linee guida</h2>
+<ul>
+<li>Inserire sempre un commento che descrive il ruolo e il funzionamento generale dell’<strong>interfaccia</strong>/<strong>classe</strong>/<strong>record</strong></li>
+<li>Inserire un commento per tutti i <strong>costruttori</strong> (<strong>parametri</strong> e <strong>return value</strong> inclusi), <strong>metodi</strong>, e <strong>campi</strong> <em>con livello di accesso <code>public</code> e <code>protected</code></em></li>
+<li>Non è necessario avere commenti javadoc su metodi <code>private</code> (non sono comunque chiamabili dal codice cliente)</li>
+<li>Non è necessario ri-documentare metodi di cui si fa override,
+a meno che non vi siano peculiarità non rilevate nella documentazione della superclasse:
+quando possibile, utilizzare <code>{@inheritDoc}</code>.</li>
+</ul>
+<h4 id="utilizzare-i-sorgenti-che-vi-forniamo-in-lab-come-riferimento">Utilizzare i sorgenti che vi forniamo in lab come riferimento!</h4>
+</section><section>
+<h2 id="generazione-della-javadoc-tramite-gradle">Generazione della Javadoc tramite Gradle</h2>
+<p>Il tool <code>javadoc</code> è molto potente e ricco di opzioni,
+usarlo direttamente è un esercizio non banale
+che va oltre lo scopo di questo corso.</p>
+<p>È possibile però appoggiarsi a Gradle per generare documentazione con impostazioni di default ragionevoli.</p>
+<p>Il plugin <code>java</code> di Gradle aggiunge un task <code>javadoc</code> che documenta automaticamente tutto il sorgente in <code>src/main/java</code>,
+generando il sito web relativo in <code>build/</code></p>
+<p><strong>NOTA –</strong> In caso di javadoc incompleta, il task fallisce!</p>
 </section>
 
   
