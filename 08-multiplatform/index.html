@@ -1,0 +1,581 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+<title>Laboratorio di Programmazione ad Oggetti</title>
+<meta name="description" content="Laboratorio di Programmazione ad Oggetti, Ingegneria e Scienze Informatiche">
+<meta name="author" content="Danilo Pianini">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/oop-lab/reveal-js/dist/reset.css">
+<link rel="stylesheet" href="/oop-lab/reveal-js/dist/reveal.css">
+  <link rel="stylesheet" href="/oop-lab/css/custom-theme.min.a1fb5112a00265a42a2454be30346ad4b54db549887ebde65a30994235d50c7d.css" id="theme"><link rel="stylesheet" href="/oop-lab/highlight-js/default.min.css">
+    
+<link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+  </head>
+  <body>
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <section><h1 id="programmazione-multipiattaforma">Programmazione multipiattaforma</h1>
+<h4 id="programmazione-ad-oggetti">Programmazione ad Oggetti</h4>
+<h4 id="cdl-ingegneria-e-scienze-informatiche">C.D.L. Ingegneria e Scienze Informatiche</h4>
+<h3 id="danilo-pianini-----danilopianiniuniboitmailtodanilopianiniuniboit"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini — <code>danilo.pianini@unibo.it</code></a></h3>
+<h3 id="roberto-casadei-----robycasadeiuniboitmailtorobycasadeiuniboit"><a href="mailto:roby.casadei@unibo.it">Roberto Casadei — <code>roby.casadei@unibo.it</code></a></h3>
+<p><a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a>
+</p></section><section>
+<h3 id="write-once-run-anywhere">“Write once, run anywhere…”</h3>
+<p>Lo slogan, coniato originariamente da Sun Microsystems per illustrare i benefici del linguaggio Java, vale <em>a patto che</em>:</p>
+<ul>
+<li><strong>“write” sia fatta in modo corretto e robusto</strong>;
+<ul>
+<li>ovvero, sia adottato un approccio di programmazione adeguato.</li>
+</ul>
+</li>
+<li><strong>sia possibile distribuire ciascuna applicazione per qualunque piattaforma</strong>.
+<ul>
+<li>ovvero, sia predisposto un packaging efficace.</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="accesso-al-file-system">Accesso al file system</h2>
+<h3 id="path-e-separatori">Path e Separatori</h3>
+<p>Inserire dei <em>path assoluti</em> nel proprio sorgente è <strong>sempre</strong> fonte di problemi quando si scrive software multipiattaforma:</p>
+<ul>
+<li><code>C:\Users\UserName\file</code> — Non funzionerà su piattaforma *nix, e non funzionerà se l’utente Windows non è “UserName”.</li>
+<li><code>C:\MyProgram\file</code> — Non funzionerà su piattaforma *nix, e non funzionerà se
+l’installazione di Windows è sana e il software non è avviato con diritti di amministratore.</li>
+<li><code>/home/username/file</code> — Non funzionerà su piattaforma Windows, e non funzionerà se l’utente non è <code>username</code>.</li>
+</ul>
+<h4 id="problemi">Problemi</h4>
+<ul>
+<li>I <em>separatori</em> per i path cambiano a seconda dell’OS</li>
+<li>La <em>struttura del file system</em> cambia con l’OS</li>
+<li>I <em>diritti</em> di lettura e scrittura cambiano con la configurazione</li>
+</ul>
+</section><section>
+<h3 id="proprietà-di-sistema">Proprietà di sistema</h3>
+<p>Java fornisce nella classe <code>System</code> un metodo</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">String</span> <span style="color:#000">getProperty</span><span style="color:#000">(</span><span style="color:#000">String</span> <span style="color:#000">p</span><span style="color:#000">)</span>
+</span></span></code></pre></div><p>che consente di accedere a proprietà di sistema</p>
+<h4 id="proprietà-relative-al-file-system">Proprietà relative al file system</h4>
+<ul>
+<li><code>file.separator</code> — Restituisce <code>\</code> per Windows e <code>/</code> per Unix</li>
+<li><code>java.home</code> — La directory di installazione di Java</li>
+<li><code>user.dir</code> — La directory da cui il comando <code>java</code> è stato invocato</li>
+<li><code>user.home</code> — Restituisce la home directory dell’utente che ha lanciato <code>java</code></li>
+<li><code>user.name</code> — Restituisce il nome utente</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#a90d91">public</span> <span style="color:#a90d91">static</span> <span style="color:#a90d91">final</span> <span style="color:#000">String</span> <span style="color:#000">PROP_FILE_SEPARATOR</span> <span style="color:#000">=</span> <span style="color:#c41a16">"file.separator"</span><span style="color:#000">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000">String</span> <span style="color:#000">separator</span> <span style="color:#000">=</span> <span style="color:#000">System</span><span style="color:#000">.</span><span style="color:#836c28">getProperty</span><span style="color:#000">(</span><span style="color:#000">PROP_FILE_SEPARATOR</span><span style="color:#000">);</span>
+</span></span></code></pre></div></section><section>
+<h2 id="accesso-ai-dettagli-del-sistema">Accesso ai dettagli del sistema</h2>
+<h3 id="funzionalità-os-specifiche">Funzionalità OS-specifiche</h3>
+<ul>
+<li>Talvolta è possibile che in una applicazione si debbano utilizzare librerie non disponibili o non licenziate per alcune piattaforme.</li>
+<li>A supporto di ciò, Java fornisce delle proprietà che consentono di <em>identificare OS, versione, e JVM corrente</em>.</li>
+</ul>
+<h4 id="proprietà-relative-al-sistema">Proprietà relative al sistema</h4>
+<ul>
+<li><code>java.version</code> — La versione di <code>java</code> in uso. Si potrebbe decidere di non usare una funzionalità che si sa non esistere o essere buggata.</li>
+<li><code>os.arch</code> — L’architettura della CPU come rilevata dall’OS (es. x86, i386, amd64, x86_64, IA64N, arm, …)</li>
+<li><code>os.name</code> — Il nome del sistema operativo (es. Linux, MacOS X, MacOS, Windows 8.1, Windows 10, Solaris, FreeBSD,  …)</li>
+<li><code>os.version</code> — Restituisce per Windows il numero di versione effettivo (es.
+Windows 10 restituisce 10.0), per MacOS il numero di versione (es. 10.3.4), per Linux la versione
+del kernel (es. 4.17)</li>
+</ul>
+</section><section>
+<h2 id="gui-scalabili-e-internazionalizzazione">GUI scalabili e internazionalizzazione</h2>
+<h3 id="gui-scalabili----motivazioni">GUI scalabili – Motivazioni</h3>
+<h4 id="flessibilità">Flessibilità</h4>
+<p>Diversamente dagli anni 90, i dispositivi oggi hanno una <em>densità di pixel per area</em> <strong>estremamente</strong> variabile. Si va da 120 <em>PPI (Pixel Per Inch)</em> a 640 PPI, su schermi di dimensione estremamente variabile (da 3 a 200 pollici).</p>
+<h4 id="multipiattaforma">Multipiattaforma</h4>
+<p>Piattaforme diverse, anche a parità di schermo, possono adottare diverse convenzioni:</p>
+<ul>
+<li>Diversa grandezza di bordi</li>
+<li>Diversa spaziatura, dimensione e tipo di font</li>
+<li>Diverso sistema di decorazioni</li>
+</ul>
+<p>Questi elementi sono stabiliti dal <em>window manager</em> (del <em>windowing system</em> del sistema utilizzato) e non dallo sviluppatore dell’applicazione. Come indicazione generale vale che <strong>un’applicazione ben sviluppata eredita il “look and feel” dal sistema su cui sta girando</strong>.</p>
+</section><section>
+<h3 id="esempio-finestra-non-ridimensionabile-e-bassa-risoluzione">Esempio: Finestra non ridimensionabile e bassa risoluzione</h3>
+<p><img src="imgs/lowres.jpg" alt=""></p>
+</section><section>
+<h3 id="esempio-finestra-non-ridimensionabile-e-alta-risoluzione">Esempio: Finestra non ridimensionabile e alta risoluzione</h3>
+<p><img src="imgs/brokensword.png" alt=""></p>
+</section><section>
+<h3 id="best-practices-per-la-costruzione-di-gui">Best-practices per la costruzione di GUI</h3>
+<ul>
+<li>A proposito della specifica delle dimensioni
+<ul>
+<li>La <em>dimensione di default</em> della finestra va calcolata <em>in base alla dimensione dello schermo</em>.</li>
+<li>E’ opportuno <strong>non</strong> <em>specificare dimensioni assolute in pixel</em> per i componenti della GUI, ma dimensionarli <strong>in termini relativi</strong> <em>rispetto al container</em>.
+<ul>
+<li>Anche per i layout è opportuno non utilizzare dimensioni fisse in pixel.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>A proposito dei font
+<ul>
+<li>I <em>font</em> possono essere allegati all’applicazione</li>
+<li>La <em>dimensione dei font</em> può essere resa <em>relativa</em> alla dimensione corrente della view.</li>
+</ul>
+</li>
+<li><em>L’utente deve essere libero di ridimensionare l’interfaccia a piacimento per adattarla alla
+propria configurazione di schermi</em></li>
+</ul>
+</section><section>
+<h3 id="supporto-multilingua-per-le-ui">Supporto multilingua per le UI</h3>
+<ul>
+<li>
+<p>Sarebbe opportuno definire la UI una sola volta e cambiare dinamicamente le parti scritte (il testo) a seconda dell’impostazione della lingua di sistema (o della nostra applicazione).</p>
+</li>
+<li>
+<p>In realtà, non solo per la lingua ma anche per il formato dei numeri, la valuta, le convenzioni sulla data, …</p>
+<ul>
+<li>un <strong>locale</strong> è un insieme di parametri che definiscono la lingua dell’utente, la sua regione, e le sue preferenze di visualizzazione delle GUI</li>
+<li>un esempio di locale è <code>en_US_UNIX</code> (lingua inglese, Stati Uniti, piattaforma UNIX)</li>
+</ul>
+</li>
+</ul>
+<h4 id="java-resource-bundles">Java Resource Bundles</h4>
+<p>Java fornisce una architettura per l’internazionalizzazione (<strong>i18n = internationalization</strong>), che fa uso di “<strong>ResourceBundle</strong>” e di una serie di file di supporto (<em>properties files</em>).</p>
+<ul>
+<li>per localizzazione (<strong>l10n = localization</strong>) si intende invece il processo di adattare un prodotto internazionalizzato a un particolare locale</li>
+</ul>
+<p>Per approfondimenti (per implementare il supporto multilingua):</p>
+<ul>
+<li><a href="https://docs.oracle.com/javase/tutorial/i18n/resbundle/index.html">https://docs.oracle.com/javase/tutorial/i18n/resbundle/index.html</a></li>
+<li><a href="http://tutorials.jenkov.com/java-internationalization/resourcebundle.html">http://tutorials.jenkov.com/java-internationalization/resourcebundle.html</a></li>
+</ul>
+</section><section>
+<h2 id="corretta-configurazione-di-un-progetto-gradle">Corretta configurazione di un progetto Gradle</h2>
+</section><section>
+<h3 id="risorse-nei-progetti-gradle">Risorse nei progetti Gradle</h3>
+<pre tabindex="0"><code>src/
+  main/
+    java/
+    test/
+    resources/
+build.gradle.kts
+settings.gradle.kts
+</code></pre><ul>
+<li>
+<p>La cartella <code>src/main/resources</code> contiene le risorse del progetto opportunamente organizzate</p>
+<ul>
+<li>Per risorse si intendono icone, file di testo, video, immagini, modelli 3D e qualunque cosa sia necessaria al corretto funzionamento del programma ma non sia una libreria o un file sorgente.</li>
+</ul>
+</li>
+</ul>
+<!--
+
+#### `README.md`
+
+
+* File con la descrizione del progetto: autori, breve guida d'uso, link a risorse.
+
+    * GitHub è in grado di fare il parse del file e di integrarlo nella pagina del progetto, in modo da dargli una descrizione.
+
+
+
+
+#### `LICENSE`
+
+
+* File con informazioni circa la licenza.
+
+    * Necessario affinché il progetto sia open source.
+    * Progetti il cui codice è disponibile ma non hanno alcuna licenza applicata sono automaticamente coperti da copyright.
+    * Per software open source, si raccomanda l'uso di Apache License 2.0, MIT license, o BSD license.
+    * Qualunque licenza GPL-compatibile è ritenuta idonea per il progetto del corso.
+
+
+-->
+<h2 id="font-ed-encoding">Font ed encoding</h2>
+<h3 id="font-ed-encoding-1">Font ed encoding</h3>
+<p>Le più note piattaforme utilizzano di default encoding diversi:</p>
+<ul>
+<li><strong>UTF-8</strong> — default su Linux, può essere considerato lo standard de-facto.</li>
+<li><strong>MacRoman</strong> — default su MacOS, raramente causa artefatti se riconvertito ad altri formati.</li>
+<li><strong>ISO-8859-1</strong> — default su Windows, può causare artefatti su quasi tutti i caratteri non ASCII se convertito a UTF-8.</li>
+</ul>
+<h4 id="encoding-per-il-codice-sorgente">Encoding per il codice sorgente</h4>
+<p>Solitamente, il codice sorgente si sviluppa utilizzando la codifica UTF-8</p>
+<pre><code>* Essenziale se si utilizzano caratteri non inclusi nella tabella ASCII (caratteri accentati, ad esempio).
+</code></pre>
+</section><section>
+<h3 id="carattere-di-new-line">Carattere di new line</h3>
+<p>Unix e Windows differiscono anche per il carattere di newline</p>
+<ul>
+<li><code>\n</code> — Su Linux e MacOS X (e su tutti i sistemi non Windows).</li>
+<li><code>\r</code> — Su MacOS 9 e precedenti</li>
+<li><code>\r\n</code> — Windows</li>
+</ul>
+<h4 id="pillola-di-storia">Pillola di storia</h4>
+<ul>
+<li>Il “carriage return” è un’eredità dovuta alla compatibilità con MS-DOS</li>
+<li>Che a sua ha ereditato la cosa dalla compatibilità con CP/M-80</li>
+<li>A quel tempo, le stampanti erano macchine da scrivere elettromeccaniche</li>
+<li><code>\r</code> riportava il rullo con la carta al margine sinistro
+<ul>
+<li>quindi, sposta il cursore di scrittura all’inizio della riga corrente</li>
+</ul>
+</li>
+<li>Anche se queste stampanti non sono più in uso, alcuni produttori (come HP) mantengono la compatibilità su alcuni prodotti</li>
+<li>Ad oggi, si usa <code>\r</code> solo per realizzare animazioni su terminale (far sì che la nuova linea cancelli la precedente)</li>
+</ul>
+</section><section>
+<h4 id="standardizzazione">Standardizzazione</h4>
+<ul>
+<li>
+<p>Entrambi i sistemi (Unix/Windows) “digeriscono” entrambi i newline</p>
+</li>
+<li>
+<p>Ma se due membri del team usano impostazioni diverse, il DVCS considererà ogni file modificato come integralmente cambiato ad ogni salvataggio</p>
+<ul>
+<li>Diff incomprensibili</li>
+<li>Storia del progetto compromessa</li>
+<li>Difficoltà di produrre patch e ripristinare il lavoro precedente</li>
+</ul>
+</li>
+<li>
+<p>Facciamo una scelta, e utilizziamo un solo formato</p>
+</li>
+<li>
+<p>La nostra scelta sarà <code>\n</code> (<strong>Unix newline</strong>)</p>
+</li>
+</ul>
+</section><section>
+<h3 id="configurazione-di-encoding-e-newline-in-vs-code">Configurazione di encoding e newline in VS Code</h3>
+<ul>
+<li>
+<p><code>File -&gt; Preferences -&gt; Settings</code></p>
+</li>
+<li>
+<p>Per l’opzione <code>Text Editor -&gt; Files -&gt; Encoding</code> selezionare <code>UTF-8</code></p>
+</li>
+<li>
+<p>Per l’opzione <code>Test Editor -&gt; Files -&gt; Eol</code> selezionare <code>LF</code></p>
+</li>
+<li>
+<p>In basso a destra nella finestra di VS Code c’è l’indicazione della codifica e di EOL per il file selezionato</p>
+</li>
+</ul>
+<p><img src="imgs/vscode-encoding-eol.png" alt=""></p>
+</section><section>
+<h2 id="caricamento-di-risorse-dal-classpath">Caricamento di risorse dal classpath</h2>
+<h3 id="risorse-caricate-dal-classpath">Risorse caricate dal classpath</h3>
+<ul>
+<li>
+<p>Abbiamo visto finora il <em>classpath</em> come l’insieme dei <em>percorsi</em> dove la virtual machine va a cercare le classi da caricare</p>
+<ul>
+<li>Come abbiamo visto usando l’opzione <code>-cp</code> di <code>java</code> e <code>javac</code>, il classpath può contenere indifferentemente dei path o dei JAR (o anche degli zip)</li>
+</ul>
+</li>
+<li>
+<p>Esso includerà tipicamente anche le risorse del progetto, i JAR delle dipendenze importate, etc.</p>
+</li>
+<li>
+<p>Come possiamo accedere a queste risorse in modo uniforme?</p>
+<ul>
+<li>Ossia caricarle sia che si trovino sul file system, sia che si trovino nel JAR eseguibile, sia che vengano incluse in un JAR di risorse separato.</li>
+</ul>
+</li>
+<li>
+<p>Java fornisce un’utilità per caricare risorse dal <strong>classpath</strong></p>
+</li>
+</ul>
+</section><section>
+<h3 id="classloadergetsystemresource-e-classloadergetsystemresourceasstream"><code>ClassLoader.getSystemResource</code> e <code>ClassLoader.getSystemResourceAsStream</code></h3>
+<div class="smaller">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#a90d91">public</span> <span style="color:#a90d91">abstract</span> <span style="color:#a90d91">class</span> <span style="color:#3f6e75">ClassLoader</span> <span style="color:#000">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a90d91">public</span> <span style="color:#a90d91">static</span> <span style="color:#000">ClassLoader</span> <span style="color:#000">getSystemClassLoader</span><span style="color:#000">();</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a90d91">public</span> <span style="color:#a90d91">static</span> <span style="color:#000">URL</span> <span style="color:#000">getSystemResource</span><span style="color:#000">(</span><span style="color:#000">String</span> <span style="color:#000">name</span><span style="color:#000">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a90d91">public</span> <span style="color:#a90d91">static</span> <span style="color:#000">InputStream</span> <span style="color:#000">getSystemResourceAsStream</span><span style="color:#000">(</span><span style="color:#000">String</span> <span style="color:#000">name</span><span style="color:#000">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a90d91">public</span> <span style="color:#000">URL</span> <span style="color:#000">getResource</span><span style="color:#000">(</span><span style="color:#000">String</span> <span style="color:#000">name</span><span style="color:#000">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#177500">// ...
+</span></span></span></code></pre></div><ul>
+<li>Questo approccio al <em>resource loading</em> è detto <strong>location-independent</strong> in quanto non importa dove il codice viene eseguito fin tanto che l’ambiente viene correttamente impostato per trovare le risorse.</li>
+<li>Un <strong>class loader</strong> (istanza di <code>ClassLoader</code>) è un’oggetto responsabile per il <em>caricamento di classi e risorse</em>
+<ul>
+<li>ogni class loader ha un class loader padre, per sfruttare un meccanismo di delega</li>
+<li>il parent di default è il <strong>system class loader</strong> che carica classi e risorse <em>dal classpath</em></li>
+</ul>
+</li>
+<li>Una <strong>risorsa di sistema</strong> (system resource) è una risorsa “built-in” del sistema software, oppure disponibile nel sistema host (ad es. nel filesystem locale)
+<ul>
+<li>Per esempio, l’implementazione di base ricerca nel <code>CLASSPATH</code></li>
+</ul>
+</li>
+<li>L’argomento di <code>getSystemResource</code> e <code>getSystemResourceAsStream</code> è il <strong>nome di una risorsa</strong> (non un percorso del filesystem!), che è una stringa separata da <code>/</code> che identifica la risorsa
+<ul>
+<li>L’interpretazione del nome della risorsa dipende dall’implementazione</li>
+<li>Il system class loader usa il nome come un path per cercare la risorsa a partire dalle entry del classpath</li>
+</ul>
+</li>
+<li><code>ClassLoader.getSystemResource()</code> equivale a <code>ClassLoader.getSystemClassLoader().getResource()</code></li>
+</ul>
+</div>
+</section><section>
+<h3 id="risorse-caricate-dal-classpath----esempi">Risorse caricate dal classpath – Esempi</h3>
+<h4 id="caricamento-di-file">Caricamento di File</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#a90d91">final</span> <span style="color:#000">InputStream</span> <span style="color:#000">in</span> <span style="color:#000">=</span> <span style="color:#000">ClassLoader</span><span style="color:#000">.</span><span style="color:#836c28">getSystemResourceAsStream</span><span style="color:#000">(</span><span style="color:#c41a16">"/settings/settings"</span><span style="color:#000">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#a90d91">final</span> <span style="color:#000">BufferedReader</span> <span style="color:#000">br</span> <span style="color:#000">=</span> <span style="color:#a90d91">new</span> <span style="color:#000">BufferedReader</span><span style="color:#000">(</span><span style="color:#a90d91">new</span> <span style="color:#000">InputStreamReader</span><span style="color:#000">(</span><span style="color:#000">in</span><span style="color:#000">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#a90d91">final</span> <span style="color:#000">String</span> <span style="color:#000">line</span> <span style="color:#000">=</span> <span style="color:#000">br</span><span style="color:#000">.</span><span style="color:#836c28">readLine</span><span style="color:#000">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">in</span><span style="color:#000">.</span><span style="color:#836c28">close</span><span style="color:#000">();</span>
+</span></span></code></pre></div><h4 id="caricamento-di-immagini">Caricamento di Immagini</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#a90d91">final</span> <span style="color:#000">URL</span> <span style="color:#000">imgURL</span> <span style="color:#000">=</span> <span style="color:#000">ClassLoader</span><span style="color:#000">.</span><span style="color:#836c28">getSystemResource</span><span style="color:#000">(</span><span style="color:#c41a16">"/images/gandalf.jpg"</span><span style="color:#000">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#a90d91">final</span> <span style="color:#000">ImageIcon</span> <span style="color:#000">icon</span> <span style="color:#000">=</span> <span style="color:#a90d91">new</span> <span style="color:#000">ImageIcon</span><span style="color:#000">(</span><span style="color:#000">imgURL</span><span style="color:#000">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#a90d91">final</span> <span style="color:#000">JLabel</span> <span style="color:#000">lab1</span> <span style="color:#000">=</span> <span style="color:#a90d91">new</span> <span style="color:#000">JLabel</span><span style="color:#000">(</span><span style="color:#000">icon</span><span style="color:#000">);</span>
+</span></span></code></pre></div></section><section>
+<h2 id="installazione-delle-impostazioni-per-utente">Installazione delle impostazioni per-utente</h2>
+<h3 id="installazione-delle-impostazioni">Installazione delle impostazioni</h3>
+<h4 id="motivazione">Motivazione</h4>
+<p>Spesso un software ha necessità di caricare al primo avvio delle <em>impostazioni di default</em>, quindi lasciare l’utente libero di modificarle e, se avviato successivamente caricare quelle scelte dall’utente. In caso di sistema multiutente, le impostazioni saranno diverse per ciascuno.</p>
+<h4 id="strategia">Strategia</h4>
+<ul>
+<li>Si sceglie una cartella nella <strong>home folder dell’utente</strong> dove salvare le impostazioni.
+<ul>
+<li>È norma consolidata creare una cartella <code>.nomeprogramma</code>.</li>
+</ul>
+</li>
+<li>Al primo avvio, si verifica se tale cartella esista e se contenga i file di configurazione previsti.
+<ul>
+<li>Se non è presente, o se non sono presenti e leggibili alcuni i file, si procede a caricare nella cartella di destinazione i file di default dal JAR usando <code>getResource()</code>.</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="ricercautilizzo-di-librerie">Ricerca/Utilizzo di librerie</h2>
+<h3 id="uso-di-librerie">Uso di Librerie</h3>
+<ul>
+<li>Durante lo sviluppo di un software, spesso emerge la necessità di realizzare componenti a supporto della propria applicazione, utili per incapsulare un determinato comportamento/funzionalità ma non cruciali per la logica applicativa.</li>
+<li>Nella maggior parte dei casi una tale libreria/componente è già stato sviluppato da qualcun altro!</li>
+<li>Risulta opportuno avvalersi di librerie già disponibili e testate …
+<ul>
+<li>… dopo aver letto attentamente la documentazione e averne compreso a fondo il comportamento!</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h3 id="librerie-particolarmente-utili">Librerie particolarmente utili</h3>
+<ul>
+<li>
+<p><strong>Google Guava</strong> (<a href="https://github.com/google/guava">https://github.com/google/guava</a>)</p>
+<ul>
+<li>Il progetto Guava di Google raccoglie diverse librerie core sviluppate da Google che possono essere utilizzate per lo sviluppo di applicazioni.</li>
+<li>Ad esempio, sono disponibili librerie per Collections Management, Concurrency, I/O, String Processing, …</li>
+</ul>
+</li>
+<li>
+<p><strong>Apache Commons</strong> (<a href="https://commons.apache.org">https://commons.apache.org</a>)</p>
+<ul>
+<li>Estensioni al linguaggio (Commons Lang3)</li>
+<li>Libreria matematica estesa (Commons Math3)</li>
+<li>Accesso semplificato all’I/O (Commons IO)</li>
+<li>Costruzione semi automatica di una command line (Commons CLI)</li>
+<li>Encoding e crittazione (Commons Codec), compressione (Commons Compress)</li>
+</ul>
+</li>
+<li>
+<p><strong>Static Logger Facade for Java (SLF4J)</strong> (<a href="http://www.slf4j.org">http://www.slf4j.org</a>)</p>
+<ul>
+<li>Backend-independent logging (addio <code>println</code>)</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h3 id="top-20-java-library">Top 20 Java Library</h3>
+<p><a href="http://blog.takipi.com/we-analyzed-60678-libraries-on-github-here-are-the-top-100">
+<img src="imgs/top-20-java-libraries.png" alt="">
+</a></p>
+</section><section>
+<h3 id="awesome-java">Awesome Java</h3>
+<p>Esiste una lista, costantemente manutenuta, che elenca le più comuni, diffuse e stabili librerie per una pletora di usi: <a href="https://bit.ly/awesome-java">https://bit.ly/awesome-java</a></p>
+<p><strong>U-SA-TE-LE</strong>!</p>
+<ul>
+<li><strong>Usare librerie e non reinventare la ruota è IMPORTANTE</strong> e valutato
+positivamente.</li>
+<li>Attenzione però a scegliere le librerie dopo aver fatto il <strong>modello del dominio</strong>
+dell’applicazione: <strong>PRIMA</strong> si studia il problema, <strong>DOPO</strong> si implementa una soluzione:
+siete aspiranti ingegneri, cercate di lavorare sempre top-down quando possibile, non partite dalla libreria per costruirci sopra un software, ma partite dai requisiti e - se utile - sfruttate le librerie per soddisfarli.</li>
+</ul>
+</section><section>
+<h3 id="the-maven-central-repository">The Maven Central Repository</h3>
+<ul>
+<li>
+<p>Costituisce una delle più ampie collezioni di librerie e componenti Java open-source.</p>
+<ul>
+<li>È il repository di default per Apache Maven (noto tool per il project management).</li>
+<li>Bintray JCenter è un superset di Maven Central.</li>
+</ul>
+</li>
+<li>
+<p>Rappresenta uno dei modi più rapidi per accedere a librerie sviluppate da altri sviluppatori e distribuire le proprie.</p>
+</li>
+<li>
+<p>Consente di ricercare e scaricare pressoché qualunque libreria a supporto utile nelle proprie applicazioni open-source.</p>
+</li>
+<li>
+<p><code>https://search.maven.org/</code></p>
+</li>
+</ul>
+</section>
+
+  
+
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src="/oop-lab/reveal-hugo/object-assign.js"></script>
+
+<a href="/oop-lab/reveal-js/dist/print/" id="print-location" style="display: none;"></a>
+
+<script type="application/json" id="reveal-hugo-site-params">{"custom_theme":"custom-theme.scss","custom_theme_compile":true,"custom_theme_options":{"enablesourcemap":true,"targetpath":"css/custom-theme.css"},"height":"900","highlight_theme":"default","history":true,"mermaid":[{"startOnLoad":false}],"slide_number":true,"theme":"white","transition":"slide","transition_speed":"fast","width":"1440"}</script>
+<script type="application/json" id="reveal-hugo-page-params">null</script>
+
+<script src="/oop-lab/reveal-js/dist/reveal.js"></script>
+
+
+  
+  
+  <script type="text/javascript" src="/oop-lab/reveal-js/plugin/markdown/markdown.js"></script>
+  
+  <script type="text/javascript" src="/oop-lab/reveal-js/plugin/highlight/highlight.js"></script>
+  
+  <script type="text/javascript" src="/oop-lab/reveal-js/plugin/zoom/zoom.js"></script>
+  
+  <script type="text/javascript" src="/oop-lab/reveal-js/plugin/notes/notes.js"></script>
+  
+  
+  <script type="text/javascript" src="/oop-lab/reveal-js/plugin/notes/notes.js"></script>
+
+
+
+
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+  
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+
+  var revealHugoPlugins = { 
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom ]
+   };
+  var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
+  var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams),
+    camelize(revealHugoPlugins));
+  Reveal.initialize(options);
+</script>
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({"startOnLoad":false});
+
+    let render = (event) => {
+      let mermaidElems = event.currentSlide.querySelectorAll('.mermaid');
+      if (!mermaidElems.length){
+          return
+      }
+      mermaidElems.forEach(mermaidElem => {
+          let processed = mermaidElem.getAttribute('data-processed');
+          if (!processed){
+              
+              mermaid.init(undefined, mermaidElem);
+          }
+      });
+    };
+    Reveal.addEventListener('slidechanged', render);
+    Reveal.addEventListener('ready', render);
+  </script>
+
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+
+<script type="text/javascript" id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+
+<script>
+  if (/.*?(\?|&)print-pdf/.test(window.location.toString())) {
+      console.log("Printing detected. Disabling YouTube.")
+      var ytVideos = document.getElementsByTagName("iframe")
+      console.log("AAAAAAAAAAAAA" + ytVideos[0].src)
+      for (let i = 0; i < ytVideos.length; i++) {
+          var videoFrame = ytVideos[i]
+          console.log("operating on " + videoFrame.src);
+          var isYouTube = /^https?:\/\/(www.)youtube\.com\/.*/.test(videoFrame.src)
+          if (isYouTube) {
+              console.log(`Removing ${videoFrame.src}`)
+              var parent = videoFrame.parentElement
+              videoFrame.remove()
+              var p = document.createElement('p')
+              p.append(
+                  document.createTextNode(
+                      "There was an embedded video here, but it is disabled in the printed version of the slides."
+                  )
+              )
+              p.append(document.createElement('br'))
+              p.append(
+                  document.createTextNode(
+                      `Visit instead ${
+                          videoFrame.src
+                      } or ${
+                          videoFrame.src.replace(
+                              /(^https?:\/\/(www.)youtube\.com)\/(embed\/)(\w+).*/,
+                              "https://www.youtube.com/watch?v=$4"
+                          )
+                      }`
+                  )
+              )
+              parent.appendChild(p)
+          }
+      }
+  }
+</script>
+
+    
+  
+
+</body></html>
