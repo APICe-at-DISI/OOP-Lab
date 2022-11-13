@@ -22,16 +22,15 @@
       <div class="slides">
   
 
-    <section><h1 id="strumenti-per-la-qualità-del-codice">Strumenti per la qualità del codice</h1>
+    <section><h1 id="analisi-statica">Analisi statica</h1>
 <h4 id="programmazione-ad-oggetti">Programmazione ad Oggetti</h4>
 <h4 id="cdl-ingegneria-e-scienze-informatiche">C.D.L. Ingegneria e Scienze Informatiche</h4>
 <h3 id="danilo-pianini-----danilopianiniuniboitmailtodanilopianiniuniboit"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini — <code>danilo.pianini@unibo.it</code></a></h3>
 <h3 id="roberto-casadei-----robycasadeiuniboitmailtorobycasadeiuniboit"><a href="mailto:roby.casadei@unibo.it">Roberto Casadei — <code>roby.casadei@unibo.it</code></a></h3>
 <p><a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a>
 </p></section><section>
-<h2 id="strumenti-per-il-controllo-di-qualità">Strumenti per il controllo di qualità</h2>
-<h3 id="analisi-di-qualità--del-codice-sorgente">Analisi di qualità  del codice sorgente</h3>
-<h4 id="software-di-analisi-statica-del-codice---definizione">“Software di analisi statica del codice” - Definizione</h4>
+<h2 id="analisi-di-qualità-del-codice-sorgente">Analisi di qualità del codice sorgente</h2>
+<h3 id="software-di-analisi-statica-del-codice---definizione">“Software di analisi statica del codice” - Definizione</h3>
 <p>Software in grado di analizzare il codice sorgente per individuare:</p>
 <ul>
 <li>Potenziali bug, magari dovuti a distrazione</li>
@@ -40,88 +39,45 @@
 <li>Stile non conforme</li>
 </ul>
 <h4 id="uso">Uso</h4>
-<p>L’analisi automatica del proprio codice garantisce sempre un elevata qualità  del codice, aiuta ad apprendere il modo corretto di scrivere, riduce il costo di manutenzione e garantisce uniformità  fra le parti sviluppate da persone diverse.</p>
+<p>L’analisi automatica del proprio codice consente di migliorare la qualità del codice,
+aiuta ad apprendere il modo corretto di scrivere,
+riduce il costo di manutenzione,
+e garantisce uniformità fra le parti sviluppate da persone diverse
+(aiutando quindi il sistema di controllo versione!).</p>
 </section><section>
 <h3 id="code-checking">Code checking</h3>
 <p>I software che vedremo sono eseguibili in due modalità:</p>
 <ul>
 <li><em>Stand-alone</em>: il software viene eseguito e genera un report</li>
 <li>Come <em>plug-in</em>: il software viene integrato con l’IDE (ad es. VS Code), e segnala i problemi sotto forma di warning</li>
+<li>Come <em>plugin Gradle</em>: Gradle viene configurato per eseguire il software nella prima modalità</li>
 </ul>
-<p>Noi ci concentreremo nell’imparare la seconda modalità .</p>
-<p>(Nota: In realtà  cominciano a prender piede anche servizi web come Codacy, ma non li tratteremo in questo corso…)</p>
+<p>Noi vedremo la terza modalità.</p>
 </section><section>
-<!--
-
-### Code checkers in Eclipse
-
-#### Installazione
-
-Per l'installazione, si seguano le istruzioni fornite sulla pagina dei installazione del software del corso.
-
-#### Configurazione globale
-
-La configurazione globale viene applicata a **tutti** i progetti del workspace, a meno che non sia sovrascritta localmente (non sempre è possibile).
-    
-* Veloce da configurare: si configura una volta, e i settaggi sono applicati su tutti i progetti
-* Poco portabile: se inviamo il progetto ad un collaboratore, questi settaggi **non** saranno inviati: c'è il rischio di inconsistenze
-* Ottimo da usare quando si hanno molti progetti nel workspace con la stessa configurazione, e si sviluppa da soli.
-    
-
-#### Configurazione locale
-
-La configurazione locale va messa a punto singolarmente per ciascun progetto. Bisogna verificare che quella globale non la stia sovrascrivendo.
-    
-        * Alta flessibilità: si possono specificare regole diverse per progetti diversi
-        * Alta portabilità: se si invia il progetto ad un collaboratore, queste impostazioni
-vengono mantenute
-        * Ottimo da usare quando si hanno pochi progetti, o ai progetti serve una configurazione diversa, oppure quando si lavora in modo collaborativo
-    
-	
-	
-		Noi faremo uso della configurazione **locale** \\
-		**Voi farete** uso della configurazione locale nell'**elaborato finale**
-	
-
--->
-<h3 id="spotbugs-ex-findbugs">SpotBugs (ex FindBugs)}</h3>
+<h2 id="spotbugs-ex-findbugs">SpotBugs (ex FindBugs)}</h2>
 <p>SpotBugs scansiona il bytecode generato dal compilatore, e dalla sua analisi cerca di scoprire potenziali bug nel sorgente, ad esempio:</p>
 <ul>
 <li>Uguaglianza esatta fra <code>float</code> o <code>double</code></li>
 <li>Utilizzo di <code>==</code> invece di <code>equals()</code></li>
 <li>Mancata annotazione di annotazioni usate a runtime via reflection</li>
 <li>Uso errato di meccanismi di sincronizzazione</li>
+<li>Assenza di copie difensive</li>
+<li>Variabili non utilizzate</li>
 <li>Vulnerabilità  di sicurezza</li>
-<li>Tanti altri! Si veda: <a href="http://findbugs.sourceforge.net/bugDescriptions.html">http://findbugs.sourceforge.net/bugDescriptions.html</a></li>
+<li>Tanti altri! Si veda: <a href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html">https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html</a></li>
 </ul>
 </section><section>
-<h3 id="spotbugs-----configurazione-del-progetto">SpotBugs — Configurazione del progetto</h3>
-<p>In SpotBugs, la configurazione locale <strong>è più prioritaria</strong> di quella globale.</p>
-<p><img src="imgs/findbugsproj.png" alt=""></p>
-</section><section>
-<h3 id="pmd-e-cpd">PMD e CPD</h3>
-<p>Cos’è: PMD si occupa di trovare imperfezioni nel codice:</p>
+<h2 id="pmd-e-cpd">PMD e CPD</h2>
+<p>PMD si occupa di trovare imperfezioni nel codice:</p>
 <ul>
 <li>Campi pubblici, protetti o default</li>
 <li>Mancato uso di final</li>
 <li>Singular fields</li>
-<li>Usa CPD per verificare se vi siano blocchi di codice copincollati</li>
+<li>Integra CPD (copy/paste detector) per verificare se vi siano blocchi di codice copincollati</li>
 <li>Tanti altri! Si veda: <a href="https://pmd.github.io/latest/pmd_rules_java.html">https://pmd.github.io/latest/pmd_rules_java.html</a></li>
 </ul>
 </section><section>
-<h3 id="pmd-----configurazione-del-progetto">PMD — Configurazione del progetto</h3>
-<p><strong>ATTENZIONE</strong></p>
-<ul>
-<li>Prima di attivare la configurazione locale, <strong>assicurarsi</strong> che il file <code>pmd.xml</code> sia stato copiato all’interno della cartella del progetto!</li>
-</ul>
-<p><img src="imgs/pmd1.png" alt=""></p>
-<p><img src="imgs/pmd2.png" alt=""></p>
-<p><img src="imgs/pmd3.png" alt=""></p>
-<p><img src="imgs/pmd4.png" alt=""></p>
-<p><img src="imgs/pmd5.png" alt=""></p>
-<p><img src="imgs/pmd6.png" alt=""></p>
-</section><section>
-<h3 id="checkstyle">Checkstyle</h3>
+<h2 id="checkstyle">Checkstyle</h2>
 <p>Cos’è: Checkstyle si occupa di trovare errori di stile:</p>
 <ul>
 <li>Mancanza di commento Javadoc</li>
@@ -131,69 +87,14 @@ vengono mantenute
 <li>Altro: <a href="http://checkstyle.sourceforge.net/checks.html">http://checkstyle.sourceforge.net/checks.html</a></li>
 </ul>
 </section><section>
-<h3 id="checkstyle-----configurazione">Checkstyle — Configurazione</h3>
-<p>La configurazione di default di Checkstyle è eccessivamente pedante. Vi forniremo noi un file di configurazione idoneo:</p>
+<h2 id="configurazione-e-utilizzo-tramite-gradle">Configurazione e utilizzo tramite Gradle</h2>
 <ul>
-<li>Dalle proprietà  di progetto, si clicki sul menu Checkstyle</li>
-<li>Si selezioni ``Local Check Configurations''</li>
-<li>Si scelga ``New''</li>
-<li>Si scelga ``Project Relative Configuration’’ (mai usare path assoluti!)</li>
-<li>Utilizzando ``Browse…’’ si punti al file di configurazione, che deve esser copiato nel progetto</li>
-<li>Si dia un nome e si prema ``OK''</li>
-<li>Si vada su ``Main''</li>
-<li>Si selezioni dal menu la nuova Check configuration</li>
-<li>Si attivi <code>Checkstyle active for this project'' e </code>Use simple configuration''</li>
-<li>``OK''</li>
+<li>Plugin</li>
+<li>Aggressività</li>
+<li>Build reports</li>
 </ul>
-</section><section>
-<h3 id="checkstyle-----configurazione-per-progetto">Checkstyle — Configurazione per-progetto</h3>
-<p><img src="imgs/checkstyle.png" alt=""></p>
-<!--
-
-## Coding style: configurazione IDE Eclipse
-
-### Configurare l'IDE per una corretta formattazione del codice
-
-Checkstyle è in grado di supportarci nel verificare l'utilizzo di un corretto stile di codifica. Adattando le ``Java Code Convention'':
-
-* 4 spazi per l'indentazione
-
-    * Nell'originale è consentito scegliere fra fra i due ed i quattro
-
-* Nessun carattere tab
-
-    * Nell'originale è consentito usarli
-    * Ma noi vogliamo indentazione consistente, quindi o spazi, oppure tab
-    * Essendo in JCC un tab equivalente ad 8 spazi, diventa troppo largo per una buona indentazione
-
-* Linee lunghe al massimo 120 o 130 caratteri
-
-    * Nell'originale sono 80 per motivi storici (le schede perforate IBM avevano 80 colonne)
-    * Noi abbiamo i monitor, e anche i nostri colleghi
-
-
-Ora, però, dobbiamo configurare l'editor perché ci supporti nella scrittura di codice con lo stile corretto: come fare?
-
-}
-
----
-
-### Configurazione del formattatore di Eclipse
-
-	
-![](imgs/ideconf-1.png)
-
-
-![](imgs/ideconf-2.png)
-
-
-![](imgs/ideconf-3.png)
-
-
-![](imgs/ideconf-4.png)
-	
-
---></section>
+<h2 id="soppressione">Soppressione</h2>
+</section>
 
   
 
