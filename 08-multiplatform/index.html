@@ -29,7 +29,7 @@
 <h3 id="roberto-casadei-----robycasadeiuniboitmailtorobycasadeiuniboit"><a href="mailto:roby.casadei@unibo.it">Roberto Casadei — <code>roby.casadei@unibo.it</code></a></h3>
 <p><a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a>
 </p></section><section>
-<h3 id="write-once-run-anywhere">“Write once, run anywhere…”</h3>
+<h2 id="write-once-run-anywhere">“Write once, run anywhere…”</h2>
 <p>Lo slogan, coniato originariamente da Sun Microsystems per illustrare i benefici del linguaggio Java, vale <em>a patto che</em>:</p>
 <ul>
 <li><strong>“write” sia fatta in modo corretto e robusto</strong>;
@@ -60,11 +60,11 @@ l’installazione di Windows è sana e il software non è avviato con diritti di
 <li>I <em>diritti</em> di lettura e scrittura cambiano con la configurazione</li>
 </ul>
 </section><section>
-<h3 id="proprietà-di-sistema">Proprietà di sistema</h3>
+<h2 id="proprietà-di-sistema">Proprietà di sistema</h2>
 <p>Java fornisce nella classe <code>System</code> un metodo</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">String</span> <span style="color:#000">getProperty</span><span style="color:#000">(</span><span style="color:#000">String</span> <span style="color:#000">p</span><span style="color:#000">)</span>
 </span></span></code></pre></div><p>che consente di accedere a proprietà di sistema</p>
-<h4 id="proprietà-relative-al-file-system">Proprietà relative al file system</h4>
+<h3 id="proprietà-relative-al-file-system">Proprietà relative al file system</h3>
 <ul>
 <li><code>file.separator</code> — Restituisce <code>\</code> per Windows e <code>/</code> per Unix</li>
 <li><code>java.home</code> — La directory di installazione di Java</li>
@@ -85,11 +85,10 @@ l’installazione di Windows è sana e il software non è avviato con diritti di
 <h4 id="proprietà-relative-al-sistema">Proprietà relative al sistema</h4>
 <ul>
 <li><code>java.version</code> — La versione di <code>java</code> in uso. Si potrebbe decidere di non usare una funzionalità che si sa non esistere o essere buggata.</li>
-<li><code>os.arch</code> — L’architettura della CPU come rilevata dall’OS (es. x86, i386, amd64, x86_64, IA64N, arm, …)</li>
-<li><code>os.name</code> — Il nome del sistema operativo (es. Linux, MacOS X, MacOS, Windows 8.1, Windows 10, Solaris, FreeBSD,  …)</li>
-<li><code>os.version</code> — Restituisce per Windows il numero di versione effettivo (es.
-Windows 10 restituisce 10.0), per MacOS il numero di versione (es. 10.3.4), per Linux la versione
-del kernel (es. 4.17)</li>
+<li><code>os.arch</code> — L’architettura della CPU come rilevata dall’OS (x86, i386, amd64, x86_64, IA64N, ARM, …)</li>
+<li><code>os.name</code> — Il nome del sistema operativo (Linux, MacOS X, MacOS, Windows 10, Solaris, FreeBSD,  …)</li>
+<li><code>os.version</code> — Restituisce per Windows il numero di versione effettivo (per esempio, Windows 10 restituisce 10.0), per MacOS il numero di versione (per esempio, 10.3.4), per Linux la versione
+del kernel (es. 6.1)</li>
 </ul>
 </section><section>
 <h2 id="gui-scalabili-e-internazionalizzazione">GUI scalabili e internazionalizzazione</h2>
@@ -111,7 +110,7 @@ del kernel (es. 4.17)</li>
 <h3 id="esempio-finestra-non-ridimensionabile-e-alta-risoluzione">Esempio: Finestra non ridimensionabile e alta risoluzione</h3>
 <p><img src="imgs/brokensword.png" alt=""></p>
 </section><section>
-<h3 id="best-practices-per-la-costruzione-di-gui">Best-practices per la costruzione di GUI</h3>
+<h2 id="best-practices-per-la-costruzione-di-gui">Best-practices per la costruzione di GUI</h2>
 <ul>
 <li>A proposito della specifica delle dimensioni
 <ul>
@@ -133,13 +132,13 @@ del kernel (es. 4.17)</li>
 propria configurazione di schermi</em></li>
 </ul>
 </section><section>
-<h3 id="supporto-multilingua-per-le-ui">Supporto multilingua per le UI</h3>
+<h2 id="supporto-multilingua-per-le-ui">Supporto multilingua per le UI</h2>
 <ul>
 <li>
 <p>Sarebbe opportuno definire la UI una sola volta e cambiare dinamicamente le parti scritte (il testo) a seconda dell’impostazione della lingua di sistema (o della nostra applicazione).</p>
 </li>
 <li>
-<p>In realtà, non solo per la lingua ma anche per il formato dei numeri, la valuta, le convenzioni sulla data, …</p>
+<p>In realtà anche per il formato dei numeri, la valuta, le convenzioni sulla data, …</p>
 <ul>
 <li>un <strong>locale</strong> è un insieme di parametri che definiscono la lingua dell’utente, la sua regione, e le sue preferenze di visualizzazione delle GUI</li>
 <li>un esempio di locale è <code>en_US_UNIX</code> (lingua inglese, Stati Uniti, piattaforma UNIX)</li>
@@ -147,7 +146,7 @@ propria configurazione di schermi</em></li>
 </li>
 </ul>
 <h4 id="java-resource-bundles">Java Resource Bundles</h4>
-<p>Java fornisce una architettura per l’internazionalizzazione (<strong>i18n = internationalization</strong>), che fa uso di “<strong>ResourceBundle</strong>” e di una serie di file di supporto (<em>properties files</em>).</p>
+<p>Java fornisce una architettura per l’internazionalizzazione (<strong>i18n = internationalization</strong>), che fa uso di <code>ResourceBundle</code> e di una serie di file di supporto (<em>properties files</em>).</p>
 <ul>
 <li>per localizzazione (<strong>l10n = localization</strong>) si intende invece il processo di adattare un prodotto internazionalizzato a un particolare locale</li>
 </ul>
@@ -157,48 +156,54 @@ propria configurazione di schermi</em></li>
 <li><a href="http://tutorials.jenkov.com/java-internationalization/resourcebundle.html">http://tutorials.jenkov.com/java-internationalization/resourcebundle.html</a></li>
 </ul>
 </section><section>
-<h2 id="corretta-configurazione-di-un-progetto-gradle">Corretta configurazione di un progetto Gradle</h2>
+<h1 id="corretta-configurazione-di-un-progetto-gradle">Corretta configurazione di un progetto Gradle</h1>
 </section><section>
-<h3 id="risorse-nei-progetti-gradle">Risorse nei progetti Gradle</h3>
-<pre tabindex="0"><code>src/
-  main/
-    java/
-    test/
-    resources/
-build.gradle.kts
-settings.gradle.kts
-</code></pre><ul>
-<li>
-<p>La cartella <code>src/main/resources</code> contiene le risorse del progetto opportunamente organizzate</p>
+<h2 id="risorse-nei-progetti-gradle">Risorse nei progetti Gradle</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>├── src
+</span></span><span style="display:flex;"><span>│   ├── main
+</span></span><span style="display:flex;"><span>│   │   ├── java
+</span></span><span style="display:flex;"><span>│   │   └── resources
+</span></span><span style="display:flex;"><span>│   └── test
+</span></span><span style="display:flex;"><span>│       ├── java
+</span></span><span style="display:flex;"><span>│       └── resources
+</span></span><span style="display:flex;"><span>├── build.gradle.kts
+</span></span><span style="display:flex;"><span>└── settings.gradle.kts
+</span></span></code></pre></div><ul>
+<li>Le cartelle <code>src/[main|test]/resources</code> contengono le risorse del progetto opportunamente organizzate
 <ul>
 <li>Per risorse si intendono icone, file di testo, video, immagini, modelli 3D e qualunque cosa sia necessaria al corretto funzionamento del programma ma non sia una libreria o un file sorgente.</li>
 </ul>
 </li>
 </ul>
-<!--
-
-#### `README.md`
-
-
-* File con la descrizione del progetto: autori, breve guida d'uso, link a risorse.
-
-    * GitHub è in grado di fare il parse del file e di integrarlo nella pagina del progetto, in modo da dargli una descrizione.
-
-
-
-
-#### `LICENSE`
-
-
-* File con informazioni circa la licenza.
-
-    * Necessario affinché il progetto sia open source.
-    * Progetti il cui codice è disponibile ma non hanno alcuna licenza applicata sono automaticamente coperti da copyright.
-    * Per software open source, si raccomanda l'uso di Apache License 2.0, MIT license, o BSD license.
-    * Qualunque licenza GPL-compatibile è ritenuta idonea per il progetto del corso.
-
-
--->
+</section><section>
+<h2 id="file-ancillari-per-il-progetto-di-oop">File ancillari per il progetto di OOP</h2>
+<p>Per OOP, alla struttura del progetto Gradle andranno aggiunti almeno altri due file</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>├── src
+</span></span><span style="display:flex;"><span>│   ├── main
+</span></span><span style="display:flex;"><span>│   │   ├── java
+</span></span><span style="display:flex;"><span>│   │   └── resources
+</span></span><span style="display:flex;"><span>│   └── test
+</span></span><span style="display:flex;"><span>│       ├── java
+</span></span><span style="display:flex;"><span>│       └── resources
+</span></span><span style="display:flex;"><span>├── build.gradle.kts
+</span></span><span style="display:flex;"><span>├── LICENSE
+</span></span><span style="display:flex;"><span>├── README.md
+</span></span><span style="display:flex;"><span>└── settings.gradle.kts
+</span></span></code></pre></div><h4 id="readmemd"><code>README.md</code></h4>
+<ul>
+<li>File con la descrizione del progetto: autori, breve guida d’uso, link a risorse.
+<ul>
+<li>GitHub è in grado di fare il parse del file e di integrarlo nella pagina del progetto, in modo da dargli una descrizione.</li>
+</ul>
+</li>
+</ul>
+<h4 id="license"><code>LICENSE</code></h4>
+<ul>
+<li>File con informazioni circa la licenza, necessario affinché il progetto sia open source.</li>
+<li>Per software open source, si raccomanda l’uso di MIT license.</li>
+<li>Qualunque licenza GPL-compatibile è ritenuta idonea per il progetto del corso.</li>
+</ul>
+</section><section>
 <h2 id="font-ed-encoding">Font ed encoding</h2>
 <h3 id="font-ed-encoding-1">Font ed encoding</h3>
 <p>Le più note piattaforme utilizzano di default encoding diversi:</p>
@@ -209,49 +214,8 @@ settings.gradle.kts
 </ul>
 <h4 id="encoding-per-il-codice-sorgente">Encoding per il codice sorgente</h4>
 <p>Solitamente, il codice sorgente si sviluppa utilizzando la codifica UTF-8</p>
-<pre><code>* Essenziale se si utilizzano caratteri non inclusi nella tabella ASCII (caratteri accentati, ad esempio).
-</code></pre>
-</section><section>
-<h3 id="carattere-di-new-line">Carattere di new line</h3>
-<p>Unix e Windows differiscono anche per il carattere di newline</p>
 <ul>
-<li><code>\n</code> — Su Linux e MacOS X (e su tutti i sistemi non Windows).</li>
-<li><code>\r</code> — Su MacOS 9 e precedenti</li>
-<li><code>\r\n</code> — Windows</li>
-</ul>
-<h4 id="pillola-di-storia">Pillola di storia</h4>
-<ul>
-<li>Il “carriage return” è un’eredità dovuta alla compatibilità con MS-DOS</li>
-<li>Che a sua ha ereditato la cosa dalla compatibilità con CP/M-80</li>
-<li>A quel tempo, le stampanti erano macchine da scrivere elettromeccaniche</li>
-<li><code>\r</code> riportava il rullo con la carta al margine sinistro
-<ul>
-<li>quindi, sposta il cursore di scrittura all’inizio della riga corrente</li>
-</ul>
-</li>
-<li>Anche se queste stampanti non sono più in uso, alcuni produttori (come HP) mantengono la compatibilità su alcuni prodotti</li>
-<li>Ad oggi, si usa <code>\r</code> solo per realizzare animazioni su terminale (far sì che la nuova linea cancelli la precedente)</li>
-</ul>
-</section><section>
-<h4 id="standardizzazione">Standardizzazione</h4>
-<ul>
-<li>
-<p>Entrambi i sistemi (Unix/Windows) “digeriscono” entrambi i newline</p>
-</li>
-<li>
-<p>Ma se due membri del team usano impostazioni diverse, il DVCS considererà ogni file modificato come integralmente cambiato ad ogni salvataggio</p>
-<ul>
-<li>Diff incomprensibili</li>
-<li>Storia del progetto compromessa</li>
-<li>Difficoltà di produrre patch e ripristinare il lavoro precedente</li>
-</ul>
-</li>
-<li>
-<p>Facciamo una scelta, e utilizziamo un solo formato</p>
-</li>
-<li>
-<p>La nostra scelta sarà <code>\n</code> (<strong>Unix newline</strong>)</p>
-</li>
+<li>Essenziale se si utilizzano caratteri non inclusi nella tabella ASCII (caratteri accentati, ad esempio).</li>
 </ul>
 </section><section>
 <h3 id="configurazione-di-encoding-e-newline-in-vs-code">Configurazione di encoding e newline in VS Code</h3>
@@ -271,8 +235,9 @@ settings.gradle.kts
 </ul>
 <p><img src="imgs/vscode-encoding-eol.png" alt=""></p>
 </section><section>
-<h2 id="caricamento-di-risorse-dal-classpath">Caricamento di risorse dal classpath</h2>
-<h3 id="risorse-caricate-dal-classpath">Risorse caricate dal classpath</h3>
+<h1 id="caricamento-di-risorse-dal-classpath">Caricamento di risorse dal classpath</h1>
+</section><section>
+<h2 id="risorse-caricate-dal-classpath">Risorse caricate dal classpath</h2>
 <ul>
 <li>
 <p>Abbiamo visto finora il <em>classpath</em> come l’insieme dei <em>percorsi</em> dove la virtual machine va a cercare le classi da caricare</p>
@@ -291,11 +256,13 @@ settings.gradle.kts
 </li>
 <li>
 <p>Java fornisce un’utilità per caricare risorse dal <strong>classpath</strong></p>
+<ul>
+<li>Approccio <strong>location-independent</strong>: non importa dove il codice venga eseguito fin tanto che l’ambiente viene correttamente impostato per trovare le risorse.</li>
+</ul>
 </li>
 </ul>
 </section><section>
-<h3 id="classloadergetsystemresource-e-classloadergetsystemresourceasstream"><code>ClassLoader.getSystemResource</code> e <code>ClassLoader.getSystemResourceAsStream</code></h3>
-<div class="smaller">
+<h3 id="classloadergetsystemresourceasstreamstring"><code>ClassLoader.getSystemResource</code>(<code>AsStream</code>)<code>(String)</code></h3>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#a90d91">public</span> <span style="color:#a90d91">abstract</span> <span style="color:#a90d91">class</span> <span style="color:#3f6e75">ClassLoader</span> <span style="color:#000">{</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a90d91">public</span> <span style="color:#a90d91">static</span> <span style="color:#000">ClassLoader</span> <span style="color:#000">getSystemClassLoader</span><span style="color:#000">();</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a90d91">public</span> <span style="color:#a90d91">static</span> <span style="color:#000">URL</span> <span style="color:#000">getSystemResource</span><span style="color:#000">(</span><span style="color:#000">String</span> <span style="color:#000">name</span><span style="color:#000">);</span>
@@ -303,8 +270,7 @@ settings.gradle.kts
 </span></span><span style="display:flex;"><span>  <span style="color:#a90d91">public</span> <span style="color:#000">URL</span> <span style="color:#000">getResource</span><span style="color:#000">(</span><span style="color:#000">String</span> <span style="color:#000">name</span><span style="color:#000">);</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#177500">// ...
 </span></span></span></code></pre></div><ul>
-<li>Questo approccio al <em>resource loading</em> è detto <strong>location-independent</strong> in quanto non importa dove il codice viene eseguito fin tanto che l’ambiente viene correttamente impostato per trovare le risorse.</li>
-<li>Un <strong>class loader</strong> (istanza di <code>ClassLoader</code>) è un’oggetto responsabile per il <em>caricamento di classi e risorse</em>
+<li>Un <strong>class loader</strong> (istanza di <code>ClassLoader</code>) è un’oggetto responsabile del <em>caricamento di classi e risorse</em>
 <ul>
 <li>ogni class loader ha un class loader padre, per sfruttare un meccanismo di delega</li>
 <li>il parent di default è il <strong>system class loader</strong> che carica classi e risorse <em>dal classpath</em></li>
@@ -315,7 +281,7 @@ settings.gradle.kts
 <li>Per esempio, l’implementazione di base ricerca nel <code>CLASSPATH</code></li>
 </ul>
 </li>
-<li>L’argomento di <code>getSystemResource</code> e <code>getSystemResourceAsStream</code> è il <strong>nome di una risorsa</strong> (non un percorso del filesystem!), che è una stringa separata da <code>/</code> che identifica la risorsa
+<li>L’argomento di <code>getSystemResource</code> e <code>getSystemResourceAsStream</code> è il <strong>nome di una risorsa</strong> (<strong>non un percorso del filesystem!</strong>), che è una stringa separata da <code>/</code> che identifica la risorsa
 <ul>
 <li>L’interpretazione del nome della risorsa dipende dall’implementazione</li>
 <li>Il system class loader usa il nome come un path per cercare la risorsa a partire dalle entry del classpath</li>
@@ -323,7 +289,6 @@ settings.gradle.kts
 </li>
 <li><code>ClassLoader.getSystemResource()</code> equivale a <code>ClassLoader.getSystemClassLoader().getResource()</code></li>
 </ul>
-</div>
 </section><section>
 <h3 id="risorse-caricate-dal-classpath----esempi">Risorse caricate dal classpath – Esempi</h3>
 <h4 id="caricamento-di-file">Caricamento di File</h4>
@@ -400,7 +365,7 @@ settings.gradle.kts
 </section><section>
 <h3 id="awesome-java">Awesome Java</h3>
 <p>Esiste una lista, costantemente manutenuta, che elenca le più comuni, diffuse e stabili librerie per una pletora di usi: <a href="https://bit.ly/awesome-java">https://bit.ly/awesome-java</a></p>
-<p><strong>U-SA-TE-LE</strong>!</p>
+<h4 id="usatele">USATELE!</h4>
 <ul>
 <li><strong>Usare librerie e non reinventare la ruota è IMPORTANTE</strong> e valutato
 positivamente.</li>
@@ -408,8 +373,20 @@ positivamente.</li>
 dell’applicazione: <strong>PRIMA</strong> si studia il problema, <strong>DOPO</strong> si implementa una soluzione:
 siete aspiranti ingegneri, cercate di lavorare sempre top-down quando possibile, non partite dalla libreria per costruirci sopra un software, ma partite dai requisiti e - se utile - sfruttate le librerie per soddisfarli.</li>
 </ul>
+<h4 id="attenzione-ai-framework">Attenzione ai framework!</h4>
+<p>Alcune librerie sono costruite come <em>Framework</em>,
+ossia come ossature di applicazioni,
+pensate per velocizzare la costruzione di un certo tipo di software</p>
+<ul>
+<li>Esempio tipico: l’engine per videogames <a href="%60https://libgdx.com/%60">libGDX</a></li>
+</ul>
+<p>Uno degli scopi del progetto di OOP è quello di misurare se siate bravi designer,
+ma per farlo è necessario che il design della vostra applicazione l’abbiate fatto voi e non chi ha costruito il framework.</p>
+<p>Vi raccomandiamo quindi di <strong>evitare i framework</strong>!
+O, al più, usarli solo <em>dopo che il progetto è avviato</em> come semplice libreria
+(non semplice e non sempre possibile)</p>
 </section><section>
-<h3 id="the-maven-central-repository">The Maven Central Repository</h3>
+<h2 id="the-maven-central-repository">The Maven Central Repository</h2>
 <ul>
 <li>
 <p>Costituisce una delle più ampie collezioni di librerie e componenti Java open-source.</p>
