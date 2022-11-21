@@ -66,9 +66,13 @@
 </ul>
 </li>
 <li>
-<p>Tra gli <em>strumenti</em> che possono essere utilizzati per monitorare l’esecuzione di applicazioni che sono eseguite sulla JVM, due sono distribuiti unitamente al Java Development Kit (JDK).</p>
+<p>Tra gli <em>strumenti</em> che possono essere utilizzati per monitorare l’esecuzione di applicazioni che sono eseguite sulla JVM:</p>
 <ul>
-<li><em>JConsole</em>, lo storico (e scarno) tool per il profiling di applicazioni Java.</li>
+<li><em>JConsole</em>, lo storico (e scarno) tool per il profiling di applicazioni Java.
+<ul>
+<li>incluso nel JDK</li>
+</ul>
+</li>
 <li><strong>JVisualVM</strong>, il più recente ed evoluto tool utilizzabile per monitorare l’evoluzione e le performance di applicazioni in esecuzione sulla JVM.</li>
 </ul>
 </li>
@@ -78,7 +82,11 @@
 <ul>
 <li>Si tratta di un <em>profiler</em> per applicazioni Java che consente di misurarne ed analizzarne le performance.</li>
 <li>Interagisce con la JVM (via <em>Java Management eXtensions (JMX)</em>) per fornire informazioni circa le performance e il consumo di risorse di applicazioni in esecuzione.</li>
-<li>Distribuito internamente al <em>JDK</em> dalla versione 5.0</li>
+<li>Precedentemente incluso nel JDK… ora distribuito come tool standalone
+<ul>
+<li>scaricabile da <a href="https://visualvm.github.io/">https://visualvm.github.io/</a></li>
+</ul>
+</li>
 <li>Consente di monitorare:
 <ul>
 <li>la percentuale di CPU utilizzata da singoli metodi, thread, ..</li>
