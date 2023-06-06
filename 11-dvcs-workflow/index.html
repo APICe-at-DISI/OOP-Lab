@@ -5,11 +5,9 @@
 <meta name="author" content="Danilo Pianini">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="/oop-lab/reveal-js/dist/reset.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/oop-lab/reveal-js/dist/reset.css">
 <link rel="stylesheet" href="/oop-lab/reveal-js/dist/reveal.css">
   <link rel="stylesheet" href="/oop-lab/css/custom-theme.min.a1fb5112a00265a42a2454be30346ad4b54db549887ebde65a30994235d50c7d.css" id="theme"><link rel="stylesheet" href="/oop-lab/highlight-js/default.min.css">
-    
 <link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
@@ -225,7 +223,7 @@
     }
     return map;
   }
-  
+
   var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
 
   var revealHugoPlugins = { 
@@ -247,6 +245,40 @@
 
 
 
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
 
 
   <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script>
@@ -266,8 +298,11 @@
           }
       });
     };
-    Reveal.addEventListener('slidechanged', render);
-    Reveal.addEventListener('ready', render);
+    
+    render({currentSlide: Reveal.getCurrentSlide()});
+
+    Reveal.on('slidechanged', render);
+    Reveal.on('ready', render);
   </script>
 
     <script>
